@@ -19,7 +19,7 @@ if(!$check['status']){
 }
 
 // Creating DB object (which automatically opens MySQL connection)
-$DB = new DB();
+$DB = DB::Instance();
 
 // Directly Save XML to table (which is the fastest way to add Rows Many rows to database)
 if($DB->directSaveXml($check['file'])){
