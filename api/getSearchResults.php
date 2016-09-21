@@ -12,7 +12,7 @@ $searchable = $_REQUEST['key'];
 $limit = $_REQUEST['limit'];
 
 // Creating DB Object
-$DB = new DB();
+$DB = DB::Instance();
 
 $result = $DB->select()->from('test_table')->where("`to` LIKE '%$searchable%'")->order('`to` ASC')->limit($limit)->prepare()->run();
 Router::sendResponse(true, 'success', $result);

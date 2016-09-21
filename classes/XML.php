@@ -1,4 +1,5 @@
 <?php 
+// Class not used, initialized for INSERTING xml rows by one INSERT query
 class XML {
 	public function getXmlObject($file_path){
 		return simplexml_load_file($file_path); 

@@ -1,10 +1,19 @@
 <?php 
 class Router {
 
+	// Title
 	public $title = '';
+
+	// Tamplate file url
 	public $tamplate = '';
+
+	// Js to include in header
 	public $js = [];
+
+	// Css to include in header
 	public $css = [];
+
+	// Getting Tamplate using page name from $_GET global variable
 	public function getTamplate($page_name){
 		switch($page_name){
 			case '':
@@ -29,15 +38,18 @@ class Router {
 		return $this;
 	}
 
+	// Setting title (not used)
 	public function setTitle($title){
 		$this->title = $title;
 		return $this;
 	}
 
+	// Simple redirect method
 	public static function redirect($to){
 		header("Location: $to");
 	}
 
+	// Sending AJAX response in json format
 	public static function sendResponse($status, $message, $params = []){
 		$arr['status'] = $status;
 		$arr['message'] = $message;
@@ -49,6 +61,7 @@ class Router {
 		die;
 	}
 
+	// If not setted Page title, use defaults
 	private function setTitleIfEmpty($title){
 		if(empty($this->title)){
 			$this->title = $title;

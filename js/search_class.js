@@ -68,7 +68,7 @@ var Search = new function(){
 	        	}
 	    	},
 	    	error: function(data){
-	    		location.reload();
+	    		// location.reload();
 	    	}
 		});
 	}

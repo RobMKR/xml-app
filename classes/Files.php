@@ -1,5 +1,7 @@
 <?php 
 class Files {
+
+	// Validating File
 	public function validate($file){
 		try {
 		  	if(empty($file['fileToUpload'])){
@@ -19,6 +21,7 @@ class Files {
 		return array('status' => true, 'message' => '', 'file' => $file['fileToUpload']['tmp_name']);
 	}
 
+	// Get File Extension (not used)
 	private function getExtension($file){
 		if(!empty($file)){
 			return pathinfo($file['name'], PATHINFO_EXTENSION);

@@ -1,6 +1,10 @@
 <?php
 final class DB {
-	function __construct(){
+
+	/* Connecting to DB when object created	
+	* Crating object only from inside of Class
+	*/
+	private function __construct(){
 		try {
 		    $this->connection = new PDO('mysql:host='.$this->host.';dbname='.$this->database, $this->username, $this->pass);
 		    $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -11,6 +15,17 @@ final class DB {
 		}
 	}
 
+	// Static Object
+    private static $inst = null;
+
+	// Singleton D.P.
+ 	public static function Instance(){
+        if (self::$inst === null) {
+            self::$inst = new DB();
+        }
+        return self::$inst;
+    }
+    // Params
 	private $connection;
 	private $username = 'root';
 	private $pass = '';
@@ -23,31 +38,37 @@ final class DB {
 	private $query;
 	private $order;
 
+	// Select fields
 	public function select(){
 		$this->selectables = func_get_args();
         return $this;
 	}
 
+	// Select Table
 	public function from($table){
 		$this->table = $table;
 		return $this;
 	}
 
+	// Where Clause
 	public function where($where){
 		$this->where = $where;
 		return $this;
 	}
 
+	// Records Limit
 	public function limit($limit){
 		$this->limit = $limit;
 		return $this;
 	}
 
+	// Results order
 	public function order($order){
 		$this->order = $order;
 		return $this;
 	}
 
+	// Making a query
 	public function prepare(){
 		$query = "SELECT ";
         // if the selectables is empty select all
@@ -69,6 +90,7 @@ final class DB {
         return $this;
 	}
 
+	// Run query
 	public function run(){
 		$result = [];
 		$query = $this->connection->prepare($this->query);
@@ -77,6 +99,7 @@ final class DB {
 	    return $result;
 	}
 
+	// Direct XML import to mysql
 	public function directSaveXml($file){
 		$file = str_replace("\\", "/", $file);
 		$query = 'LOAD XML INFILE "'.$file.'" INTO TABLE test_table ROWS IDENTIFIED BY "<note>"';
