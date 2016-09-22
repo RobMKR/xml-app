@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	
 	$('.results').tablesorter({
 		selectorHeaders: 'thead th.sortable',
 	    sortReset      : true,
@@ -15,7 +16,23 @@ $(document).ready(function(){
 			};
 			Search.prepareAjax(configs).getResults(value);
 		}else{
-			Search.emptyTable(2);
+			Search.emptyTables();
+			$('.results-dropdown').hide();
 		}
 	});
+	
+	$(document).on('click', '.dropdown-option a', function(){
+		var data = {
+			id: $(this).attr('data-id'),
+			lng: $(this).attr('data-lng'),
+			ltd: $(this).attr('data-ltd'),
+		};
+		var configs = {
+			'url': 'api/getSearchResults.php',
+			'type': 'post',
+			'dataType' : 'json',
+			'limit' : 50
+		};
+		Search.prepareAjax(configs).getRecords(data);
+	})
 });

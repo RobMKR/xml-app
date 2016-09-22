@@ -4,9 +4,12 @@ var Search = new function(){
 	var url = '';
 	var type = 'get';
 	var dataType = 'json';
-	var table = $('.results');
+	var table;
 	var table_body = $('.results tbody');
-
+	var dropdown = $('.results-dropdown');
+	var finded_results = [];
+	
+	
 	this.prepareAjax = function(data){
 		if(typeof(data.url) != "undefined" && data.url !== null){
 			url = data.url;
@@ -30,21 +33,84 @@ var Search = new function(){
 			table_body.html('<tr><td class="notFound" colspan="5">Nothing Found</td></tr>');
 		}
 	}
+	
+	this.emptyTables = function(){
+		$('table tbody').html('');
+	}
+	
+	this.emptyDropdown = function(){
+		dropdown.html('');
+	}
+	
+	var cleanUp = function(){
+		finded_results = [];
+	}
 
-	var insertRows = function(rows){
-		var results;
+	var collectRows = function(rows, object){
+		var distance, row;
+		cleanUp();
 		$.each(rows, function(key, value){
-			results += '<tr>' 
-						+ '<td>' + (parseInt(key)+1) + '</td>' 
-						+ '<td>' + value.to + '</td>' 
-						+ '<td>' + value.from + '</td>' 
-						+ '<td>' + value.heading + '</td>' 
-						+ '<td>' + value.body + '</td>' 
-						+'</tr>';
+			row = {};
+			distance = Gps.getDistance(object.lng, object.ltd, value.longitude, value.latitude);
+			
+			row.adress = value.adress;
+			row.distance = Math.round(distance * 100) / 100;
+			finded_results.push(row);
 		});
-		Search.emptyTable(1);
-		table_body.html(results);
-		table.trigger("update");
+	}
+	
+	var insertOptions = function(rows){
+		var results = '<ul>';
+		
+		$.each(rows, function(key, value){
+			results +=  '<li class="dropdown-option"><a data-id="'+value.id+'" data-lng="'+value.longitude+'" data-ltd="'+value.latitude+'">' + value.adress + '</a></li>';
+		});
+		results += '</ul>';
+		Search.emptyDropdown();
+		dropdown.html(results);
+	}
+	
+	var selectTable = function(slug){
+		switch(slug){
+			case 5:
+				table = $('.results5');
+				table_body = $('.results5 tbody');
+				break;
+			case 10:
+				table = $('.results10');
+				table_body = $('.results10 tbody');
+				break;
+			case 15:
+				table = $('.results15');
+				table_body = $('.results15 tbody');
+				break;
+			default:
+				return false;
+		}
+	}
+	
+	var insertRows = function(rows){
+		var result = '';
+		$.each(rows, function(key, value){
+			
+			if(value.distance <= 5){
+				selectTable(5);
+			}else if(value.distance <= 10){
+				selectTable(10);
+			}else if(value.distance <= 15){
+				selectTable(15);
+			}
+			
+			result += '<tr>';
+			result += '<td>'+value.adress+'</td>';
+			result += '<td>'+value.distance+'km</td>';
+			result += '</tr>';
+			
+			Search.emptyTable(1);
+			table_body.html(result);
+			table.trigger("update");
+		});
+		
 	}
 
 	this.getResults = function(searchable){
@@ -53,15 +119,18 @@ var Search = new function(){
 			type: type,
 			dataType: dataType,
 			data: {
+				'type' : 1,
 				'key' : searchable,
 				'limit' : limit
 			},
 			success: function(data){
 	        	if(data.status){
 	        		if(data.params.length === 0){
-	        			Search.emptyTable(2);
+	        			Search.emptyDropdown();
+						dropdown.hide();
 	        		}else{
-	        			insertRows(data.params);
+	        			insertOptions(data.params);
+						dropdown.show();
 	        		}
 	        	}else{
 	        		alert('Something Went Wrong');
@@ -72,4 +141,36 @@ var Search = new function(){
 	    	}
 		});
 	}
-}
+	
+	this.getRecords = function(data){
+		var object = data;
+		$.ajax({
+			url: url,
+			type: type,
+			dataType: dataType,
+			data: {
+				'type' : 2,
+				'id': data.id,
+				'limit': limit,
+			},
+			success: function(data){
+	        	if(data.status){
+	        		if(data.params.length === 0){
+						Search.emptyTable(2);
+	        		}else{
+						collectRows(data.params, object);
+						insertRows(finded_results);
+	        		}
+	        	}else{
+	        		alert('Something Went Wrong');
+	        	}
+	    	},
+	    	error: function(data){
+	    		// location.reload();
+	    	}
+		});
+	}
+
+};
+
+

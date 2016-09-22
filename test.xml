@@ -1,0 +1,32 @@
+<notes>
+	<note>
+		<to>Tove 1</to>
+		<from>Jani 1</from>
+		<heading>Reminder 1</heading>
+		<body>Don't forget me this weekend! 1</body>
+	</note>
+	<note>
+		<to>Tove 2</to>
+		<from>Jani 2</from>
+		<heading>Reminder 2</heading>
+		<body>Don't forget me this weekend! 2</body>
+	</note>
+	<note>
+		<to>Tove 3</to>
+		<from>Jani 3</from>
+		<heading>Reminder 3</heading>
+		<body>Don't forget me this weekend! 3</body>
+	</note>
+	<note>
+		<to>Tove 4</to>
+		<from>Jani 4</from>
+		<heading>Reminder 4</heading>
+		<body>Don't forget me this weekend! 4</body>
+	</note>
+	<note>
+		<to>Tove 5</to>
+		<from>Jani 5</from>
+		<heading>Reminder 5</heading>
+		<body>Don't forget me this weekend! 5</body>
+	</note>
+</notes>

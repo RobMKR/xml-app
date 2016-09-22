@@ -30,7 +30,7 @@ final class DB {
 	private $username = 'root';
 	private $pass = '';
 	private $host = 'localhost';
-	private $database = 'xml';
+	private $database = 'robert_xml_db';
 	private $selectables = [];
 	private $table;
 	private $where;
@@ -102,7 +102,7 @@ final class DB {
 	// Direct XML import to mysql
 	public function directSaveXml($file){
 		$file = str_replace("\\", "/", $file);
-		$query = 'LOAD XML INFILE "'.$file.'" INTO TABLE test_table ROWS IDENTIFIED BY "<note>"';
+		$query = 'LOAD XML INFILE "'.$file.'" INTO TABLE emails ROWS IDENTIFIED BY "<note>"';
 		$this->connection->query($query);
 		return true;
 	}

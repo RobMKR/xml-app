@@ -17,6 +17,8 @@ $head['css'] = $route->css;
 
 $tamplate = $route->tamplate;
 
+
+
 // Checking Messages 
 $msg['danger'] = Message::getErrorMessage();
 $msg['success'] = Message::getSuccessMessage();
