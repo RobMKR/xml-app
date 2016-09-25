@@ -30,13 +30,14 @@ final class DB {
 	private $username = 'root';
 	private $pass = '';
 	private $host = 'localhost';
-	private $database = 'robert_xml_db';
+	private $database = 'xml';
 	private $selectables = [];
 	private $table;
 	private $where;
 	private $limit;
 	private $query;
 	private $order;
+	private $having;
 
 	// Select fields
 	public function select(){
@@ -68,6 +69,11 @@ final class DB {
 		return $this;
 	}
 
+	public function having($having){
+		$this->having = $having;
+		return $this;
+	}
+
 	// Making a query
 	public function prepare(){
 		$query = "SELECT ";
@@ -78,13 +84,16 @@ final class DB {
         //else select upon selectables and proceeding with building the query
         $query .= join(', ', $this->selectables). " FROM ". $this->table;
         if(!empty($this->where)){
-             $query .= " WHERE ". $this->where;
+            $query .= " WHERE ". $this->where;
+        }
+        if(!empty($this->having)){
+        	$query .= " HAVING ". $this->having;
         }
         if(!empty($this->order)){
-             $query .= " ORDER BY ". $this->order;
+            $query .= " ORDER BY ". $this->order;
         }
         if(!empty($this->limit)){
-             $query .= " LIMIT ". $this->limit;
+            $query .= " LIMIT ". $this->limit;
         }
         $this->query = $query;
         return $this;

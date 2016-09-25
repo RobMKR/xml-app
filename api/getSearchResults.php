@@ -2,8 +2,6 @@
 include('../classes/Router.php');
 include('../classes/DB.php');
 
-
-
 // Return false if empty key
 if(empty($_REQUEST['type'])){
 	Router::sendResponse(false, 'Nothing passed to search!');
@@ -24,9 +22,21 @@ switch($type){
 	case 2:
 		// Start Search Functional
 		$id = $_REQUEST['id'];
+		$ltd = $_REQUEST['ltd'];
+		$lng = $_REQUEST['lng'];
 		$limit = $_REQUEST['limit'];
 
-		$result = $DB->select()->from('adresses')->where("`id` != $id")->order('`adress` ASC')->limit($limit)->prepare()->run();
+		$result = $DB
+		->select("DISTANCE_BETWEEN($ltd , $lng , `adresses`.`latitude`, `adresses`.`longitude`) AS `distance`", "`adresses`.`adress`")
+		->from('adresses')
+		->where("`id` != $id")
+		->order('`distance` ASC')
+		->having("distance<15")
+		->limit($limit)
+		->prepare()
+		->run();
+
+
 		Router::sendResponse(true, 'success', $result);
 		break;
 	default:

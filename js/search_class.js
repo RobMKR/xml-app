@@ -7,7 +7,6 @@ var Search = new function(){
 	var table;
 	var table_body = $('.results tbody');
 	var dropdown = $('.results-dropdown');
-	var finded_results = [];
 	
 	
 	this.prepareAjax = function(data){
@@ -41,24 +40,7 @@ var Search = new function(){
 	this.emptyDropdown = function(){
 		dropdown.html('');
 	}
-	
-	var cleanUp = function(){
-		finded_results = [];
-	}
 
-	var collectRows = function(rows, object){
-		var distance, row;
-		cleanUp();
-		$.each(rows, function(key, value){
-			row = {};
-			distance = Gps.getDistance(object.lng, object.ltd, value.longitude, value.latitude);
-			
-			row.adress = value.adress;
-			row.distance = Math.round(distance * 100) / 100;
-			finded_results.push(row);
-		});
-	}
-	
 	var insertOptions = function(rows){
 		var results = '<ul>';
 		
@@ -90,24 +72,28 @@ var Search = new function(){
 	}
 	
 	var insertRows = function(rows){
-		var result = '';
+		var result, distance;
+		Search.emptyTables();
+
 		$.each(rows, function(key, value){
-			
-			if(value.distance <= 5){
+			result = '';
+			distance = parseInt(value.distance);
+			if(distance <= 5){
 				selectTable(5);
-			}else if(value.distance <= 10){
+			}else if(distance <= 10){
 				selectTable(10);
-			}else if(value.distance <= 15){
+			}else if(distance <= 15){
 				selectTable(15);
+			}else{
+				return true;
 			}
-			
+
 			result += '<tr>';
 			result += '<td>'+value.adress+'</td>';
-			result += '<td>'+value.distance+'km</td>';
+			result += '<td>'+(Math.round(value.distance * 100) / 100)+'km</td>';
 			result += '</tr>';
-			
-			Search.emptyTable(1);
-			table_body.html(result);
+
+			table_body.append(result);
 			table.trigger("update");
 		});
 		
@@ -151,6 +137,8 @@ var Search = new function(){
 			data: {
 				'type' : 2,
 				'id': data.id,
+				'lng': data.lng,
+				'ltd': data.ltd,
 				'limit': limit,
 			},
 			success: function(data){
@@ -158,8 +146,7 @@ var Search = new function(){
 	        		if(data.params.length === 0){
 						Search.emptyTable(2);
 	        		}else{
-						collectRows(data.params, object);
-						insertRows(finded_results);
+						insertRows(data.params);
 	        		}
 	        	}else{
 	        		alert('Something Went Wrong');

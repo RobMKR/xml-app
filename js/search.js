@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	
-	$('.results').tablesorter({
+	$('.table').tablesorter({
 		selectorHeaders: 'thead th.sortable',
 	    sortReset      : true,
 	    sortRestart    : true
