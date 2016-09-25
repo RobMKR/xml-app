@@ -26,6 +26,14 @@ switch($type){
 		$lng = $_REQUEST['lng'];
 		$limit = $_REQUEST['limit'];
 
+		/* MySql FUNCTION
+		*
+		* CREATE FUNCTION DISTANCE_BETWEEN (lat1 DOUBLE, lon1 DOUBLE, lat2 DOUBLE, lon2 DOUBLE)
+		* RETURNS DOUBLE DETERMINISTIC
+		* RETURN ACOS( SIN(lat1*PI()/180)*SIN(lat2*PI()/180) + COS(lat1*PI()/180)*COS(lat2*PI()/180)*COS(lon2*PI()/180-lon1*PI()/180) ) * 6371
+		*
+		*/
+
 		$result = $DB
 		->select("DISTANCE_BETWEEN($ltd , $lng , `adresses`.`latitude`, `adresses`.`longitude`) AS `distance`", "`adresses`.`adress`")
 		->from('adresses')
