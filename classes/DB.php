@@ -38,6 +38,8 @@ final class DB {
 	private $query;
 	private $order;
 	private $having;
+	private $identified_by;
+	private $xml_table;
 
 	// Select fields
 	public function select(){
@@ -69,6 +71,13 @@ final class DB {
 		return $this;
 	}
 
+	// Select Identifier for Direct XML input
+	public function identifiedBy($identifier){
+		$this->identified_by = $identifier;
+		return $this;
+	}
+
+	// Select HAVING clause for query
 	public function having($having){
 		$this->having = $having;
 		return $this;
@@ -108,10 +117,16 @@ final class DB {
 	    return $result;
 	}
 
+	// Select Direct Table for Xml input
+	public function selectDirectTable($table){
+		$this->xml_table = $table;
+		return $this;
+	}
+
 	// Direct XML import to mysql
 	public function directSaveXml($file){
 		$file = str_replace("\\", "/", $file);
-		$query = 'LOAD XML INFILE "'.$file.'" INTO TABLE emails ROWS IDENTIFIED BY "<note>"';
+		$query = 'LOAD XML INFILE "' . $file . '" INTO TABLE ' . $this->xml_table . ' ROWS IDENTIFIED BY "<' . $this->identified_by . '>"';
 		$this->connection->query($query);
 		return true;
 	}
