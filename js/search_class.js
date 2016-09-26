@@ -77,7 +77,7 @@ var Search = new function(){
 
 		$.each(rows, function(key, value){
 			result = '';
-			distance = parseInt(value.distance);
+			distance = parseFloat(value.distance);
 			if(distance <= 5){
 				selectTable(5);
 			}else if(distance <= 10){
