@@ -1,32 +1,32 @@
-<notes>
-	<note>
-		<to>Tove 1</to>
-		<from>Jani 1</from>
-		<heading>Reminder 1</heading>
-		<body>Don't forget me this weekend! 1</body>
-	</note>
-	<note>
-		<to>Tove 2</to>
-		<from>Jani 2</from>
-		<heading>Reminder 2</heading>
-		<body>Don't forget me this weekend! 2</body>
-	</note>
-	<note>
-		<to>Tove 3</to>
-		<from>Jani 3</from>
-		<heading>Reminder 3</heading>
-		<body>Don't forget me this weekend! 3</body>
-	</note>
-	<note>
-		<to>Tove 4</to>
-		<from>Jani 4</from>
-		<heading>Reminder 4</heading>
-		<body>Don't forget me this weekend! 4</body>
-	</note>
-	<note>
-		<to>Tove 5</to>
-		<from>Jani 5</from>
-		<heading>Reminder 5</heading>
-		<body>Don't forget me this weekend! 5</body>
-	</note>
+<adresses>
+	<adress_row>
+		<adress>Zvartnots</adress>
+		<latitude>40.149695</latitude>
+		<longitude>44.397241</longitude>
+	</adress_row>
+	<adress_row>
+		<adress>Arrindj</adress>
+		<latitude>40.234143</latitude>
+		<longitude>44.582979</longitude>
+	</adress_row>
+	<adress_row>
+		<adress>Jrvej</adress>
+		<latitude>40.186662</latitude>
+		<longitude>44.621506</longitude>
+	</adress_row>
+	<adress_row>
+		<adress>Republic Square</adress>
+		<latitude>40.177885</latitude>
+		<longitude>44.512897</longitude>
+	</adress_row>
+	<adress_row>
+		<adress>Cascade</adress>
+		<latitude>40.191393</latitude>
+		<longitude>44.515901</longitude>
+	</adress_row>
+	<adress_row>
+		<adress>Malatia Yerevan City</adress>
+		<latitude>40.173951</latitude>
+		<longitude>44.457193</longitude>
+	</adress_row>
 </notes>
