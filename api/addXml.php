@@ -22,7 +22,7 @@ if(!$check['status']){
 $DB = DB::Instance();
 
 // Directly Save XML to table (which is the fastest way to add Rows Many rows to database)
-if($DB->directSaveXml($check['file'])){
+if($DB->selectDirectTable('adresses')->identifiedBy('adress_row')->directSaveXml($check['file'])){
 	// Redirect to home page with success message
 	Message::setSuccessMessage('Xml File Succesfullty uploaded to database');
 	Router::redirect('../index.php');
